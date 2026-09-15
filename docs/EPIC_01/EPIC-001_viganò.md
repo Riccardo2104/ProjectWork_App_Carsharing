@@ -1,4 +1,4 @@
-EPIC-001: Piattaforma di Car/Bike Sharing tra Privati con Flotta Aziendale
+EPIC-001: Ecar
 
 | **ID**                         | EPIC-001                                                         |
 | ------------------------------ | ---------------------------------------------------------------- |
