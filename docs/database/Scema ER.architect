@@ -45,19 +45,22 @@
   <table id="TAB10" populated="true" UUID="805ab290-2e80-4ef6-865c-da360c1e871c" name="Veicolo" objectType="TABLE" physicalName="Veicolo" >
    <remarks></remarks>
    <folder id="FOLTAB101" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL11" populated="true" UUID="58ed32c8-321f-431e-ad85-1fe046a14115" autoIncrement="false" autoIncrementSequenceName="Veicolo_ID_seq" defaultValue="" name="ID" nullable="0" physicalName="ID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL11" populated="true" UUID="58ed32c8-321f-431e-ad85-1fe046a14115" autoIncrement="false" autoIncrementSequenceName="Veicolo_ID_seq" defaultValue="" name="ID" nullable="0" physicalName="ID" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL12" populated="true" UUID="a26bc428-4b76-4329-9bfe-2bc59f7f1a11" autoIncrement="false" autoIncrementSequenceName="Veicolo_Veicolo_seq" defaultValue="" name="Veicolo" nullable="0" physicalName="Veicolo" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL12" populated="true" UUID="cf9f0772-668f-459c-8b24-266ae5e70a03" autoIncrement="false" autoIncrementSequenceName="Veicolo_nomeCategoria_seq" defaultValue="" name="nomeCategoria" nullable="0" physicalName="nomeCategoria" precision="0" referenceCount="0" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL13" populated="true" UUID="f9487b7e-d5e8-4fc9-8ced-6eb5a8f70f15" autoIncrement="false" autoIncrementSequenceName="Veicolo_NomeVeicolo_seq" defaultValue="" name="NomeVeicolo" nullable="0" physicalName="NomeVeicolo" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL13" populated="true" UUID="a26bc428-4b76-4329-9bfe-2bc59f7f1a11" autoIncrement="false" autoIncrementSequenceName="Veicolo_Veicolo_seq" defaultValue="" name="Veicolo" nullable="0" physicalName="Veicolo" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL14" populated="true" UUID="1fb50632-dfa0-45c7-a3f9-242fbdb81501" autoIncrement="false" autoIncrementSequenceName="Veicolo_Disponibile_seq" defaultValue="" name="Disponibile" nullable="0" physicalName="Disponibile" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="16" userDefinedTypeUUID="a26374aa-3026-4bb8-b564-eb2e186dfa5d" >
+    <column id="COL14" populated="true" UUID="f9487b7e-d5e8-4fc9-8ced-6eb5a8f70f15" autoIncrement="false" autoIncrementSequenceName="Veicolo_NomeVeicolo_seq" defaultValue="" name="NomeVeicolo" nullable="0" physicalName="NomeVeicolo" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL15" populated="true" UUID="2f0cdfd3-9ea1-4e4a-835d-f78eced436dd" autoIncrement="false" autoIncrementSequenceName="Veicolo_Prenotabile_seq" defaultValue="" name="Prenotabile" nullable="0" physicalName="Prenotabile" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="16" userDefinedTypeUUID="a26374aa-3026-4bb8-b564-eb2e186dfa5d" >
+    <column id="COL15" populated="true" UUID="1fb50632-dfa0-45c7-a3f9-242fbdb81501" autoIncrement="false" autoIncrementSequenceName="Veicolo_Disponibile_seq" defaultValue="" name="Disponibile" nullable="0" physicalName="Disponibile" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="16" userDefinedTypeUUID="a26374aa-3026-4bb8-b564-eb2e186dfa5d" >
+     <remarks></remarks>
+    </column>
+    <column id="COL16" populated="true" UUID="2f0cdfd3-9ea1-4e4a-835d-f78eced436dd" autoIncrement="false" autoIncrementSequenceName="Veicolo_Prenotabile_seq" defaultValue="" name="Prenotabile" nullable="0" physicalName="Prenotabile" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="16" userDefinedTypeUUID="a26374aa-3026-4bb8-b564-eb2e186dfa5d" >
      <remarks></remarks>
     </column>
     </folder>
@@ -66,55 +69,80 @@
     <folder id="FOLTAB102" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB104" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX16" populated="true" UUID="a24883dd-8098-40f9-bf56-031095ec3e5d" clustered="false" name="Veicolo_pk" physicalName="Veicolo_pk" primaryKeyIndex="true" unique="false" >
-     <index-column id="IDC17" populated="true" UUID="587d27b9-2bca-4b81-b817-5850f73f0cd1" ascendingOrDescending="UNSPECIFIED" column-ref="COL11" name="ID" physicalName="ID" />
+    <index id="IDX17" populated="true" UUID="a24883dd-8098-40f9-bf56-031095ec3e5d" clustered="false" name="Veicolo_pk" physicalName="Veicolo_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC18" populated="true" UUID="587d27b9-2bca-4b81-b817-5850f73f0cd1" ascendingOrDescending="UNSPECIFIED" column-ref="COL11" name="ID" physicalName="ID" />
     </index>
    </folder>
   </table>
-  <table id="TAB18" populated="true" UUID="297b1db8-87e2-43e0-8c3a-f53c079b6dd2" name="Prenotazioni" objectType="TABLE" physicalName="Prenotazioni" >
+  <table id="TAB19" populated="true" UUID="297b1db8-87e2-43e0-8c3a-f53c079b6dd2" name="Prenotazioni" objectType="TABLE" physicalName="Prenotazioni" >
    <remarks></remarks>
-   <folder id="FOLTAB181" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL19" populated="true" UUID="c91d9c13-6a86-46ac-9be6-784f4de55fbc" autoIncrement="false" autoIncrementSequenceName="Prenotazioni_ID_seq" defaultValue="" name="ID" nullable="0" physicalName="ID" precision="0" primaryKeySeq="0" referenceCount="3" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+   <folder id="FOLTAB191" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL20" populated="true" UUID="c91d9c13-6a86-46ac-9be6-784f4de55fbc" autoIncrement="false" autoIncrementSequenceName="Prenotazioni_ID_seq" defaultValue="" name="ID" nullable="0" physicalName="ID" precision="0" primaryKeySeq="0" referenceCount="3" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL20" populated="true" UUID="e70b1140-7337-4f93-b46c-851860c07281" autoIncrement="false" autoIncrementSequenceName="Prenotazioni_Veicolo_seq" defaultValue="" name="ID_Veicolo" nullable="0" physicalName="ID_Veicolo" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL21" populated="true" UUID="e70b1140-7337-4f93-b46c-851860c07281" autoIncrement="false" autoIncrementSequenceName="Prenotazioni_Veicolo_seq" defaultValue="" name="ID_Veicolo" nullable="0" physicalName="ID_Veicolo" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL21" populated="true" UUID="e27b22eb-c106-453e-ae45-0c99a5c17e15" autoIncrement="false" autoIncrementSequenceName="Prenotazioni_ID_Utente_seq" defaultValue="" name="ID_Utente" nullable="0" physicalName="ID_Utente" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL22" populated="true" UUID="e27b22eb-c106-453e-ae45-0c99a5c17e15" autoIncrement="false" autoIncrementSequenceName="Prenotazioni_ID_Utente_seq" defaultValue="" name="ID_Utente" nullable="0" physicalName="ID_Utente" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL22" populated="true" UUID="34cc2185-10c1-4a51-a574-8d615f1fcc9b" autoIncrement="false" autoIncrementSequenceName="Prenotazioni_DataPrenotazione_seq" defaultValue="" name="DataPrenotazione" nullable="0" physicalName="DataPrenotazione" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="91" userDefinedTypeUUID="ee349be3-6af2-46e1-b305-975f5354b009" >
+    <column id="COL23" populated="true" UUID="34cc2185-10c1-4a51-a574-8d615f1fcc9b" autoIncrement="false" autoIncrementSequenceName="Prenotazioni_DataPrenotazione_seq" defaultValue="" name="DataPrenotazione" nullable="0" physicalName="DataPrenotazione" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="91" userDefinedTypeUUID="ee349be3-6af2-46e1-b305-975f5354b009" >
      <remarks></remarks>
     </column>
     </folder>
-    <folder id="FOLTAB183" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    <folder id="FOLTAB193" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
     </folder>
-    <folder id="FOLTAB182" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    <folder id="FOLTAB192" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
-    <folder id="FOLTAB184" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX23" populated="true" UUID="36ed46aa-c966-4ade-a83e-b82f70459dea" clustered="false" name="Prenotazioni_pk" physicalName="Prenotazioni_pk" primaryKeyIndex="true" unique="false" >
-     <index-column id="IDC24" populated="true" UUID="fc0185b9-583a-4b63-b245-b923189ac5a2" ascendingOrDescending="UNSPECIFIED" column-ref="COL19" name="ID" physicalName="ID" />
+    <folder id="FOLTAB194" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX24" populated="true" UUID="36ed46aa-c966-4ade-a83e-b82f70459dea" clustered="false" name="Prenotazioni_pk" physicalName="Prenotazioni_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC25" populated="true" UUID="fc0185b9-583a-4b63-b245-b923189ac5a2" ascendingOrDescending="UNSPECIFIED" column-ref="COL20" name="ID" physicalName="ID" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB26" populated="true" UUID="749f07cf-986c-4149-b9d5-3af3e937477b" name="tipoVeicolo" objectType="TABLE" physicalName="tipoVeiocolo" >
+   <remarks></remarks>
+   <folder id="FOLTAB261" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL27" populated="true" UUID="d75d2690-7bbb-43cf-9c50-c5d7d88c3608" autoIncrement="false" autoIncrementSequenceName="tipoVeiocolo_ID_seq" defaultValue="" name="ID" nullable="0" physicalName="ID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL28" populated="true" UUID="731d421a-a676-498a-ae9c-cf88802a4d86" autoIncrement="false" autoIncrementSequenceName="tipoVeiocolo_nomeCategoria_seq" defaultValue="" name="nomeCategoria" nullable="0" physicalName="nomeCategoria" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB263" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB262" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB264" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX29" populated="true" UUID="edfbc8eb-544b-48a9-9b47-8ddd8cd95535" clustered="false" name="tipoVeiocolo_pk" physicalName="tipoVeiocolo_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC30" populated="true" UUID="5eb92f0b-2b9c-4af4-bb4b-88bc2ed6ab82" ascendingOrDescending="UNSPECIFIED" column-ref="COL27" name="ID" physicalName="ID" />
     </index>
    </folder>
   </table>
   <relationships>
-   <relationship id="REL25" populated="true" UUID="ba9925bb-d67f-4e54-84ea-13460df616c4" deferrability="7" deleteRule="3" fk-table-ref="TAB18" fkCardinality="7" identifying="false" name="Utente_Prenotazioni_fk" physicalName="Utente_Prenotazioni_fk" pk-table-ref="TAB1" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP26" populated="true" UUID="c490293e-f4be-4139-9061-027c5df07104" fk-column-ref="COL21" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL2" />
+   <relationship id="REL31" populated="true" UUID="ba9925bb-d67f-4e54-84ea-13460df616c4" deferrability="7" deleteRule="3" fk-table-ref="TAB19" fkCardinality="7" identifying="false" name="Utente_Prenotazioni_fk" physicalName="Utente_Prenotazioni_fk" pk-table-ref="TAB1" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP32" populated="true" UUID="c490293e-f4be-4139-9061-027c5df07104" fk-column-ref="COL22" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL2" />
    </relationship>
-   <relationship id="REL27" populated="true" UUID="e0ae0039-5c8b-4bba-b199-58ea7fb559f2" deferrability="7" deleteRule="3" fk-table-ref="TAB18" fkCardinality="7" identifying="false" name="Veicolo_Prenotazioni_fk" physicalName="Veicolo_Prenotazioni_fk" pk-table-ref="TAB10" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP28" populated="true" UUID="1776d56e-9215-4ffd-81ee-5f20a8e1bb6f" fk-column-ref="COL20" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL11" />
+   <relationship id="REL33" populated="true" UUID="e0ae0039-5c8b-4bba-b199-58ea7fb559f2" deferrability="7" deleteRule="3" fk-table-ref="TAB19" fkCardinality="7" identifying="false" name="Veicolo_Prenotazioni_fk" physicalName="Veicolo_Prenotazioni_fk" pk-table-ref="TAB10" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP34" populated="true" UUID="1776d56e-9215-4ffd-81ee-5f20a8e1bb6f" fk-column-ref="COL21" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL11" />
+   </relationship>
+   <relationship id="REL35" populated="true" UUID="46367ebf-4bcc-440c-a16a-f7246c3b83b6" deferrability="7" deleteRule="3" fk-table-ref="TAB10" fkCardinality="7" identifying="true" name="tipoVeiocolo_Veicolo_fk" physicalName="tipoVeiocolo_Veicolo_fk" pk-table-ref="TAB26" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP36" populated="true" UUID="843e9046-ea17-4368-a9a0-4136dc9a341c" fk-column-ref="COL12" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL27" />
    </relationship>
   </relationships>
  </target-database>
  <ddl-generator type="ca.sqlpower.architect.ddl.GenericDDLGenerator" allow-connection="true"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="1.414213562373095" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="794" y="466" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB10" x="271" y="348" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB18" x="485" y="527" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-link relationship-ref="REL27" pkConnection="0.8224852071005917" fkConnection="0.27710843373493976" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
-  <table-link relationship-ref="REL25" pkConnection="0.6338028169014085" fkConnection="0.323943661971831" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
+  <table-pane table-ref="TAB19" x="485" y="527" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB26" x="458" y="224" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-link relationship-ref="REL33" pkConnection="0.8224852071005917" fkConnection="0.27710843373493976" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL31" pkConnection="0.6338028169014085" fkConnection="0.323943661971831" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
+  <table-link relationship-ref="REL35" pkConnection="0.3251231527093596" fkConnection="0.8423645320197044" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
  </play-pen>
  <critic-manager>
   <critic-grouping platformType="Generic" enabled="true">
