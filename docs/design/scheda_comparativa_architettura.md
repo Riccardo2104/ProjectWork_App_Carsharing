@@ -60,6 +60,7 @@ flowchart LR
     end
 
     F3 -->|posizione aggregata| POS
+    POS -.->|tipo proprietà veicolo| F3
 
     subgraph CORE["Core di business — Monolite Modulare"]
         direction TB
@@ -73,6 +74,23 @@ flowchart LR
     APP["App / Web client"] -->|HTTPS/REST| CORE
 ```
 
+### 3.1 Interfacce della pipeline GPS
+
+Le interfacce seguenti dettagliano il diagramma sopra e sono rappresentate nel C4 Livello 3 (`docs/design/c4/`) e nel sequence diagram (`docs/design/sequence diagram/`).
+
+| Interfaccia | Fornita da | Usata da | Operazione | Origine |
+| :--- | :--- | :--- | :--- | :--- |
+| `IRicezionePosizione` | Filtro 1 | Dispositivo GPS | `inviaPosizione(vehicleId, lat, lon, ts)` | Ingresso della pipeline (Filtro 1, ricezione e decodifica) |
+| `IValidazioneCoordinate` | Filtro 2 | Filtro 1 | `posizioneDecodificata(pacchetto)` | Filtro 2, validazione coordinate |
+| `IOffuscamentoPosizione` | Filtro 3 | Filtro 2 | `posizioneValidata(posizione)` | Filtro 3, offuscamento posizione |
+| `IAggiornaPosizione` | Modulo Veicoli e Posizioni | Filtro 3 | `aggiornaPosizione(posizioneAggregata)` | Uscita della pipeline verso il core |
+| `IProprietaVeicolo` | Modulo Veicoli e Posizioni | Filtro 3 | `tipoProprietario(vehicleId): flotta \| privato` | Nota 1 |
+| `IHealthCheck` | GPS Ingestion Worker | Monitoraggio | `stato(): ultimo aggiornamento, filtri attivi` | Nota 2 (mitigazione T1) |
+
+**Nota 1 — `IProprietaVeicolo`.** Il Filtro 3 deve offuscare la posizione solo dei veicoli privati (FEAT-02, Regola 2), ma il pacchetto GPS contiene solo identificativo del veicolo, coordinate e istante di rilevazione. Il tipo di proprietà (flotta o privato, campo `owner_type` già presente nel modello dati del prototipo) è un dato anagrafico gestito dal Modulo Veicoli e Posizioni. Il Filtro 3 lo legge quindi dal core tramite questa interfaccia di sola lettura: dal core verso la pipeline passa solo il tipo di proprietà, e la posizione esatta di un privato continua a non raggiungere il core.
+
+**Nota 2 — `IHealthCheck`.** Formalizza la mitigazione del trade-off T1 (§5): se la pipeline si ferma, la mappa continua a funzionare ma con posizioni non aggiornate. Il worker espone quindi uno stato interrogabile dal monitoraggio (istante dell'ultima posizione elaborata, filtri attivi), così il blocco della pipeline viene rilevato.
+
 ---
 
 ## 4. Vantaggi sistemici della combinazione
@@ -81,7 +99,7 @@ flowchart LR
 Il Monolite Modulare tiene prenotazioni, pagamenti e stato dei veicoli in **un unico database transazionale (ACID)**. Questo è il modo più semplice e affidabile per rispettare il vincolo *"assenza di doppie prenotazioni concorrenti sullo stesso veicolo"* (FEAT-02, criteri di accettazione; EPIC-001, rischi tecnici). La pipeline GPS invece lavora su dati che si rinnovano di continuo, dove conta l'ultima posizione e non la singola transazione. Separare le due metà evita di imporre la rigidità transazionale al flusso GPS e, al contrario, evita la consistenza eventuale distribuita (Saga Pattern) sul core delle prenotazioni.
 
 ### V2 — Privacy by design come stadio dedicato e verificabile della pipeline
-Il requisito di non esporre la posizione precisa dei veicoli privati (FEAT-02, Regola 2; EPIC-001, rischi di compliance) diventa **un filtro autonomo** (Filtro 3), attraversato obbligatoriamente da ogni posizione prima di raggiungere il core. Di conseguenza il core e la mappa **non ricevono mai** la posizione esatta di un privato. Il filtro si può testare in isolamento (posizione esatta in ingresso → posizione aggregata in uscita) e il controllo è documentabile in sede di audit GDPR.
+Il requisito di non esporre la posizione precisa dei veicoli privati (FEAT-02, Regola 2; EPIC-001, rischi di compliance) diventa **un filtro autonomo** (Filtro 3), attraversato obbligatoriamente da ogni posizione prima di raggiungere il core. Di conseguenza il core e la mappa **non ricevono mai** la posizione esatta di un privato. Il filtro si può testare in isolamento (posizione esatta in ingresso → posizione aggregata in uscita) e il controllo è documentabile in sede di audit GDPR. Per decidere se offuscare, il Filtro 3 legge dal core solo il tipo di proprietà del veicolo (flotta o privato) tramite `IProprietaVeicolo` (§3.1).
 
 ### V3 — Isolamento del carico ed estendibilità senza toccare il core
 Il flusso GPS arriva in modo continuo, indipendentemente dagli utenti, e il segnale può essere instabile in zone con copertura scarsa (EPIC-001, rischi tecnici). Con la pipeline separata, picchi o anomalie di questo flusso **non rallentano** la mappa e la conferma di prenotazione, che devono rispondere *"senza percettibile attesa"* (FEAT-02, Performance). La pipeline si estende aggiungendo nuovi filtri (per esempio il rilevamento di anomalie per la segnalazione di emergenza in corsa, FEAT-06 / US13) senza modificare il monolite. A sua volta il monolite, grazie ai moduli con interfacce esplicite, conserva un percorso di migrazione graduale verso i microservizi se in futuro un modulo dovesse scalare da solo.
@@ -92,7 +110,7 @@ Il flusso GPS arriva in modo continuo, indipendentemente dagli utenti, e il segn
 
 ### T1 — Due unità di esecuzione invece di una
 Rispetto a un monolite puro, il sistema ha **due componenti da rilasciare, configurare e monitorare**: l'applicazione di business e il worker della pipeline GPS. In più c'è un canale di comunicazione tra i due da mantenere affidabile. Se la pipeline si ferma, la mappa continua a funzionare ma mostra posizioni non aggiornate, quindi serve un monitoraggio specifico per accorgersene.
-**Mitigazione:** health-check del worker e indicazione in mappa dell'ultimo aggiornamento della posizione.
+**Mitigazione:** health-check del worker, esposto come interfaccia `IHealthCheck` (§3.1), e indicazione in mappa dell'ultimo aggiornamento della posizione.
 
 ### T2 — Latenza e rigidità del flusso lineare
 In una pipeline ogni posizione deve attraversare **tutti i filtri in sequenza**: la posizione in mappa arriva sempre con un piccolo ritardo, e il filtro più lento determina la velocità dell'intera catena. Inoltre il flusso è **unidirezionale e lineare**. Se in futuro più parti del sistema dovranno reagire allo stesso dato GPS in parallelo (notifiche, analisi, assistenza), Pipes and Filters diventa meno adatto e conviene evolvere verso un modello Event-Driven con broker.
