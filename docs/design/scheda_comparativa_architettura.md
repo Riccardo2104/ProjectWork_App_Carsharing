@@ -6,6 +6,7 @@
 | **Fase** | Design — Lab 05 (Decisione Architetturale di Macro-Pattern) |
 | **Fonte metodologica** | UFS011 — Lezione 05, §3.B "Tassonomia dei Macro-Pattern Architetturali" |
 | **Decisione** | **Monolite Modulare** (core di business) + **sottosistema Pipes and Filters** (elaborazione posizioni GPS) |
+| **Database del core** | **MySQL 8** (motore InnoDB, transazioni ACID) — §3.2 |
 | **Stato** | Proposta |
 
 ---
@@ -51,7 +52,7 @@ La Lezione 05 propone per casi di questo tipo un'**architettura ibrida**: un cor
 
 ```mermaid
 flowchart LR
-    GPS["Dispositivo GPS<br/>(veicolo)"] -->|posizione grezza| F1
+    GPS["Dispositivo GPS<br/>(veicolo)"] -->|posizione grezza, HTTPS| F1
 
     subgraph PIPE["Sottosistema GPS — Pipes and Filters"]
         direction LR
@@ -71,6 +72,7 @@ flowchart LR
         SUP["Modulo Assistenza"]
     end
 
+    CORE -->|SQL| DB[("Database MySQL<br/>(InnoDB, ACID)")]
     APP["App / Web client"] -->|HTTPS/REST| CORE
 ```
 
@@ -91,12 +93,38 @@ Le interfacce seguenti dettagliano il diagramma sopra e sono rappresentate nel C
 
 **Nota 2 — `IHealthCheck`.** Formalizza la mitigazione del trade-off T1 (§5): se la pipeline si ferma, la mappa continua a funzionare ma con posizioni non aggiornate. Il worker espone quindi uno stato interrogabile dal monitoraggio (istante dell'ultima posizione elaborata, filtri attivi), così il blocco della pipeline viene rilevato.
 
+### 3.2 Scelta del database: MySQL
+
+Il core usa **MySQL 8 con motore InnoDB** come unico database relazionale.
+
+| Requisito | Come lo copre MySQL |
+| :--- | :--- |
+| Transazioni ACID (V1) | InnoDB, il motore predefinito di MySQL, è transazionale e conforme ACID |
+| Nessuna doppia prenotazione concorrente | Blocco a livello di riga con `SELECT … FOR UPDATE` dentro la transazione di prenotazione: le richieste sullo stesso veicolo vengono servite una alla volta (sequence diagram, messaggi 3.1.1–3.1.10) |
+| Integrità dei riferimenti | Chiavi esterne tra veicoli, prenotazioni, utenti e tabelle di classificazione dello schema ER |
+| Strumenti | Lo schema ER è disegnato in SQL Power Architect, che genera lo script di creazione anche per MySQL |
+
+**Nota.** MySQL non ha un vincolo nativo che impedisca a due periodi di prenotazione di sovrapporsi. La verifica di sovrapposizione (`DataInizio < fine richiesta AND DataFine > inizio richiesto`) si esegue quindi nella transazione di prenotazione, dopo aver bloccato la riga del veicolo.
+
+### 3.3 Protocolli di comunicazione
+
+I collegamenti tra le parti del sistema, rappresentati nel deployment diagram (`docs/design/deployment diagram/`) e nel C4 Livello 2:
+
+| Da → A | Protocollo | Porta |
+| :--- | :--- | :--- |
+| App web (browser) → Core Business API | HTTPS/REST, JSON | 443 |
+| Dispositivo GPS → GPS Ingestion Worker | HTTPS (invio della posizione) | 8443 |
+| GPS Ingestion Worker → Core Business API | HTTP/REST interno, sulla rete Docker del server | 8080 |
+| Core Business API → MySQL | TCP/IP (protocollo MySQL) | 3306 |
+
+**Perché HTTPS e non MQTT per i dispositivi GPS.** MQTT è il protocollo tipico dei dispositivi IoT, ma richiede un broker di messaggi (per esempio Mosquitto) tra dispositivo e worker: sarebbe una terza unità da rilasciare e monitorare, che aggraverebbe il trade-off T1. Con HTTPS il dispositivo invia la posizione direttamente al worker, con lo stesso protocollo cifrato già usato dall'app. Il costo è che, con segnale scarso (EPIC-001, rischi tecnici), il dispositivo deve conservare le posizioni non inviate e ritentare l'invio. Se il numero di veicoli crescesse molto, MQTT con broker resta l'evoluzione naturale, coerente con il passaggio a Event-Driven previsto in §6.
+
 ---
 
 ## 4. Vantaggi sistemici della combinazione
 
 ### V1 — Ogni metà del sistema usa il modello di consistenza di cui ha bisogno
-Il Monolite Modulare tiene prenotazioni, pagamenti e stato dei veicoli in **un unico database transazionale (ACID)**. Questo è il modo più semplice e affidabile per rispettare il vincolo *"assenza di doppie prenotazioni concorrenti sullo stesso veicolo"* (FEAT-02, criteri di accettazione; EPIC-001, rischi tecnici). La pipeline GPS invece lavora su dati che si rinnovano di continuo, dove conta l'ultima posizione e non la singola transazione. Separare le due metà evita di imporre la rigidità transazionale al flusso GPS e, al contrario, evita la consistenza eventuale distribuita (Saga Pattern) sul core delle prenotazioni.
+Il Monolite Modulare tiene prenotazioni, pagamenti e stato dei veicoli in **un unico database transazionale (ACID)**, MySQL con motore InnoDB (§3.2). Questo è il modo più semplice e affidabile per rispettare il vincolo *"assenza di doppie prenotazioni concorrenti sullo stesso veicolo"* (FEAT-02, criteri di accettazione; EPIC-001, rischi tecnici). La pipeline GPS invece lavora su dati che si rinnovano di continuo, dove conta l'ultima posizione e non la singola transazione. Separare le due metà evita di imporre la rigidità transazionale al flusso GPS e, al contrario, evita la consistenza eventuale distribuita (Saga Pattern) sul core delle prenotazioni.
 
 ### V2 — Privacy by design come stadio dedicato e verificabile della pipeline
 Il requisito di non esporre la posizione precisa dei veicoli privati (FEAT-02, Regola 2; EPIC-001, rischi di compliance) diventa **un filtro autonomo** (Filtro 3), attraversato obbligatoriamente da ogni posizione prima di raggiungere il core. Di conseguenza il core e la mappa **non ricevono mai** la posizione esatta di un privato. Il filtro si può testare in isolamento (posizione esatta in ingresso → posizione aggregata in uscita) e il controllo è documentabile in sede di audit GDPR. Per decidere se offuscare, il Filtro 3 legge dal core solo il tipo di proprietà del veicolo (flotta o privato) tramite `IProprietaVeicolo` (§3.1).
@@ -120,4 +148,4 @@ In una pipeline ogni posizione deve attraversare **tutti i filtri in sequenza**:
 
 ## 6. Sintesi della decisione
 
-> Si adotta un'architettura **ibrida**: **Monolite Modulare** per il core transazionale (autenticazione, veicoli, prenotazioni, abbonamenti, assistenza) e **sottosistema Pipes and Filters** per la ricezione, la validazione e l'offuscamento delle posizioni GPS. La scelta privilegia semplicità operativa e consistenza forte dove servono (prenotazioni e pagamenti), e isola in una pipeline testabile il flusso GPS e il vincolo di privacy sui veicoli privati. L'Event-Driven Architecture resta l'evoluzione prevista se il numero di consumer del dato GPS dovesse crescere.
+> Si adotta un'architettura **ibrida**: **Monolite Modulare** per il core transazionale (autenticazione, veicoli, prenotazioni, abbonamenti, assistenza) su database MySQL, e **sottosistema Pipes and Filters** per la ricezione, la validazione e l'offuscamento delle posizioni GPS. La scelta privilegia semplicità operativa e consistenza forte dove servono (prenotazioni e pagamenti), e isola in una pipeline testabile il flusso GPS e il vincolo di privacy sui veicoli privati. L'Event-Driven Architecture resta l'evoluzione prevista se il numero di consumer del dato GPS dovesse crescere.
