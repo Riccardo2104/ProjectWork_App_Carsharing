@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-12T00:00:00.000Z" agent="Claude" version="24.0.0" type="device">
+  <diagram name="Activity Diagram - FEAT-02 Ricerca e Prenotazione Veicoli" id="feat02-activity">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- START NODE -->
+        <mxCell id="start" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="500" y="20" width="30" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Action: Accede a Mappa -->
+        <mxCell id="a1" value="Accede alla sezione Mappa" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="420" y="90" width="190" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Decision: veicoli disponibili? -->
+        <mxCell id="d1" value="Veicoli disponibili&#10;nell'area?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="445" y="200" width="140" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Action: nessun veicolo -->
+        <mxCell id="a2" value="Mostra messaggio&#10;&quot;Nessun veicolo disponibile in questa zona&quot;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="720" y="210" width="220" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Final activity node (per ramo no veicoli) -->
+        <mxCell id="end1" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="810" y="320" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="end1ring" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="805" y="315" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Action: mostra marker -->
+        <mxCell id="a3" value="Mostra marker veicoli disponibili&#10;(distinti per tipo e proprietà)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="400" y="330" width="230" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Action: seleziona veicolo -->
+        <mxCell id="a4" value="Seleziona un veicolo disponibile" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="420" y="440" width="190" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Decision: tipo veicolo -->
+        <mxCell id="d2" value="Tipo veicolo&#10;selezionato?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="445" y="540" width="140" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Decision: finestra 24h (ramo bici) -->
+        <mxCell id="d3" value="Bicicletta:&#10;entro finestra 24h?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="700" y="650" width="160" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Action: rifiuta finestra 24h -->
+        <mxCell id="a5" value="Rifiuta richiesta: messaggio sulla&#10;finestra delle 24h (nessun addebito)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="900" y="655" width="230" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Final activity node (ramo finestra scaduta) -->
+        <mxCell id="end2" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="780" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="end2ring" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="995" y="775" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Merge node A (convergenza auto / bici-ok) -->
+        <mxCell id="m1" value="" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="470" y="690" width="90" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Action: indica periodo -->
+        <mxCell id="a6" value="Indica periodo di utilizzo&#10;e conferma prenotazione" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="400" y="800" width="230" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Action: verifica disponibilità -->
+        <mxCell id="a7" value="Verifica disponibilità effettiva&#10;del veicolo per il periodo richiesto" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="395" y="910" width="240" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Decision: ancora disponibile? -->
+        <mxCell id="d4" value="Veicolo ancora&#10;disponibile?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="445" y="1020" width="140" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Action: rifiuta concorrenza -->
+        <mxCell id="a8" value="Rifiuta prenotazione: veicolo non&#10;più disponibile (nessun addebito)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="140" y="1035" width="230" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Final activity node (ramo concorrenza) -->
+        <mxCell id="end3" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="240" y="1140" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="end3ring" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="235" y="1135" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Action: addebita -->
+        <mxCell id="a9" value="Addebita importo sul metodo&#10;di pagamento registrato" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="400" y="1140" width="230" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Action: registra prenotazione -->
+        <mxCell id="a10" value="Registra la prenotazione&#10;(veicolo non disponibile nel periodo)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="390" y="1250" width="250" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Action: invia conferma -->
+        <mxCell id="a11" value="Invia conferma prenotazione&#10;all'utente" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="410" y="1360" width="210" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Final activity node finale (successo) -->
+        <mxCell id="end4" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="500" y="1470" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="end4ring" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="495" y="1465" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- EDGES -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="start" target="a1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="a1" target="d1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="sì" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="d1" target="a3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="no" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="d1" target="a2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="a2" target="end1ring">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="a3" target="a4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="a4" target="d2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="auto (US-04)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="d2" target="m1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="bicicletta (US-05)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="d2" target="d3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="sì" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="d3" target="m1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="no" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="d3" target="a5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="a5" target="end2ring">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="m1" target="a6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="a6" target="a7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="a7" target="d4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="no" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="d4" target="a8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="a8" target="end3ring">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" value="sì" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="d4" target="a9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="a9" target="a10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="a10" target="a11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="a11" target="end4ring">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
